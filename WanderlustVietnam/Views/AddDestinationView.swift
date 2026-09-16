@@ -7,12 +7,33 @@ struct AddDestinationView: View {
 
     @Environment(\.dismiss)
     private var dismiss
-    
-    
 
-    @State private var name = ""
-    @State private var province = ""
-    @State private var details = ""
+    private let destinationToEdit: SavedDestination?
+
+    @State private var name: String
+    @State private var province: String
+    @State private var details: String
+
+    @State private var showingSaveError = false
+    @State private var saveErrorMessage = ""
+
+    init(
+        destinationToEdit: SavedDestination? = nil
+    ) {
+        self.destinationToEdit = destinationToEdit
+
+        _name = State(
+            initialValue: destinationToEdit?.name ?? ""
+        )
+
+        _province = State(
+            initialValue: destinationToEdit?.province ?? ""
+        )
+
+        _details = State(
+            initialValue: destinationToEdit?.details ?? ""
+        )
+    }
 
     private var canSave: Bool {
         !name.trimmingCharacters(
@@ -44,7 +65,11 @@ struct AddDestinationView: View {
                         .frame(minHeight: 150)
                 }
             }
-            .navigationTitle("Add Destination")
+            .navigationTitle(
+                destinationToEdit == nil
+                ? "Add Destination"
+                : "Edit Destination"
+            )
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(
@@ -65,31 +90,72 @@ struct AddDestinationView: View {
                 }
             }
             .tint(Color("BrandPrimary"))
+            .alert(
+                "Unable to Save",
+                isPresented: $showingSaveError
+            ) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text(saveErrorMessage)
+            }
         }
     }
 
     private func saveDestination() {
-        let newDestination = SavedDestination(
-            name: name.trimmingCharacters(
-                in: .whitespacesAndNewlines
-            ),
-            province: province.trimmingCharacters(
-                in: .whitespacesAndNewlines
-            ),
-            details: details.trimmingCharacters(
-                in: .whitespacesAndNewlines
-            )
+        let trimmedName = name.trimmingCharacters(
+            in: .whitespacesAndNewlines
         )
 
-        modelContext.insert(newDestination)
+        let trimmedProvince = province.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
 
-        do {
-            try modelContext.save()
-            dismiss()
-        } catch {
-            print(
-                "Unable to save destination: \(error)"
+        let trimmedDetails = details.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
+
+        if let destination = destinationToEdit {
+            let oldName = destination.name
+            let oldProvince = destination.province
+            let oldDetails = destination.details
+
+            destination.name = trimmedName
+            destination.province = trimmedProvince
+            destination.details = trimmedDetails
+
+            do {
+                try modelContext.save()
+                dismiss()
+            } catch {
+                destination.name = oldName
+                destination.province = oldProvince
+                destination.details = oldDetails
+
+                saveErrorMessage =
+                    error.localizedDescription
+
+                showingSaveError = true
+            }
+        } else {
+            let newDestination = SavedDestination(
+                name: trimmedName,
+                province: trimmedProvince,
+                details: trimmedDetails
             )
+
+            modelContext.insert(newDestination)
+
+            do {
+                try modelContext.save()
+                dismiss()
+            } catch {
+                modelContext.delete(newDestination)
+
+                saveErrorMessage =
+                    error.localizedDescription
+
+                showingSaveError = true
+            }
         }
     }
 }

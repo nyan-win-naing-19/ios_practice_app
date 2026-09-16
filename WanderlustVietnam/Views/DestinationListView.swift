@@ -20,6 +20,10 @@ struct DestinationListView: View {
     // Delete
     @State private var destinationToDelete:
         SavedDestination?
+    
+    // Update
+    @State private var destinationToEdit:
+        SavedDestination?
 
     @State private var showingDeleteConfirmation = false
 
@@ -176,9 +180,7 @@ struct DestinationListView: View {
                                     allowsFullSwipe: false
                                 ) {
                                     Button(role: .destructive) {
-                                        destinationToDelete =
-                                            savedDestination
-
+                                        destinationToDelete = savedDestination
                                         showingDeleteConfirmation = true
                                     } label: {
                                         Label(
@@ -186,6 +188,16 @@ struct DestinationListView: View {
                                             systemImage: "trash"
                                         )
                                     }
+
+                                    Button {
+                                        destinationToEdit = savedDestination
+                                    } label: {
+                                        Label(
+                                            "Edit",
+                                            systemImage: "pencil"
+                                        )
+                                    }
+                                    .tint(.blue)
                                 }
                             }
                         }
@@ -224,6 +236,11 @@ struct DestinationListView: View {
             isPresented: $showingSettings
         ) {
             SettingsView()
+        }
+        .sheet(item: $destinationToEdit) { destination in
+            AddDestinationView(
+                destinationToEdit: destination
+            )
         }
         .confirmationDialog(
             "Delete Destination?",
