@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Ha Long Bay",
+    "province": "Quang Ninh",
+    "headline": "A breathtaking seascape of limestone pillars and tiny islets.",
+    "description": "Ha Long Bay in northeast Vietnam is known for emerald waters and thousands of towering limestone islands topped with rainforest. Boat tours and kayaking trips take visitors through a peaceful landscape of caves, floating villages, and uniquely shaped islets.",
+    "imageName": "halong-1",
+    "galleryImages": ["halong-1", "halong-2", "halong-3"]
+  },
+  {
+    "id": 2,
+    "name": "Hoi An Ancient Town",
+    "province": "Quang Nam",
+    "headline": "A beautifully preserved Southeast Asian trading port.",
+    "description": "Hoi An is famous for its yellow heritage buildings, lantern-lit streets, riverside scenery, and mixture of Vietnamese, Chinese, Japanese, and European architectural influences. The old town becomes especially atmospheric after sunset.",
+    "imageName": "hoian-1",
+    "galleryImages": ["hoian-1", "hoian-2", "hoian-3"]
+  },
+  {
+    "id": 3,
+    "name": "Phong Nha Cave",
+    "province": "Quang Binh",
+    "headline": "Spectacular caves, underground rivers, and forest landscapes.",
+    "description": "Phong Nha-Ke Bang is a dramatic landscape of ancient limestone mountains, tropical forest, enormous caverns, and underground waterways. Visitors can explore parts of the cave system by boat while learning about its geology and biodiversity.",
+    "imageName": "phongnha-1",
+    "galleryImages": ["phongnha-1", "phongnha-2", "phongnha-3"]
+  },
+  {
+    "id": 4,
+    "name": "Hoan Kiem Lake",
+    "province": "Hanoi",
+    "headline": "The historical and cultural heart of Vietnam's capital.",
+    "description": "Hoan Kiem Lake is a calm green space in central Hanoi surrounded by mature trees, busy streets, and historic landmarks. The red Huc Bridge leads toward Ngoc Son Temple and is one of the city's most recognizable sights.",
+    "imageName": "hanoi-1",
+    "galleryImages": ["hanoi-1", "hanoi-2", "hanoi-3"]
+  }
+]
