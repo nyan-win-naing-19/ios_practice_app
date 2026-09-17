@@ -15,7 +15,7 @@ struct WanderlustVietnamApp: App {
 
     var body: some Scene {
         WindowGroup {
-            WelcomeView()
+            MainTabView()
                 .preferredColorScheme(
                     isDarkMode ? .dark : .light
                 )

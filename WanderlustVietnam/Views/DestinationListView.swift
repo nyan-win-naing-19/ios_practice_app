@@ -235,7 +235,7 @@ struct DestinationListView: View {
         .sheet(
             isPresented: $showingSettings
         ) {
-            SettingsView()
+            SettingsView(showsDoneButton: true)
         }
         .sheet(item: $destinationToEdit) { destination in
             AddDestinationView(
