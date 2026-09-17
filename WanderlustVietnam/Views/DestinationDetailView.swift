@@ -1,4 +1,5 @@
 import SwiftUI
+import MapKit
 
 struct DestinationDetailView: View {
     private let name: String
@@ -22,6 +23,39 @@ struct DestinationDetailView: View {
         self.details = savedDestination.details
         self.mainImageName = nil
         self.galleryImages = []
+    }
+    
+    
+    /// Map
+    private var coordinate: CLLocationCoordinate2D? {
+        switch mainImageName {
+        case "halong-1":
+            return CLLocationCoordinate2D(
+                latitude: 20.9101,
+                longitude: 107.1839
+            )
+
+        case "hoian-1":
+            return CLLocationCoordinate2D(
+                latitude: 15.8770,
+                longitude: 108.3268
+            )
+
+        case "phongnha-1":
+            return CLLocationCoordinate2D(
+                latitude: 17.5833,
+                longitude: 106.2833
+            )
+
+        case "hanoi-1":
+            return CLLocationCoordinate2D(
+                latitude: 21.0287,
+                longitude: 105.8524
+            )
+
+        default:
+            return nil
+        }
     }
 
     var body: some View {
@@ -82,6 +116,24 @@ struct DestinationDetailView: View {
                             horizontal: false,
                             vertical: true
                         )
+                    
+                    
+                    /// Map
+                    if let coordinate {
+                        Text("Location")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .padding(.top, 8)
+
+                        DestinationMapView(
+                            name: name,
+                            coordinate: coordinate
+                        )
+                        .frame(height: 250)
+                        .clipShape(
+                            RoundedRectangle(cornerRadius: 12)
+                        )
+                    }
 
                     if !galleryImages.isEmpty {
                         Text("Image Gallery")
